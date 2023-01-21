@@ -1,6 +1,6 @@
-import sys
 import requests
 from telebot import types, TeleBot
+import datetime
 
 token = '5875525598:AAFfWTn7YzahCIxWfcHuhl6DqoHFQJED_YA'
 bot = TeleBot(token)
@@ -62,24 +62,33 @@ def callback(call):
             )
 
         elif call.data == '6':
-            api_weather_key = '268493ae80d7db908fa00f4858ea2ba1'
-            city = 'minsk'
+            api_weather_key = '88133905efd729600c05331c4e375939'
+            city = "minsk"
 
-            url_weather = f"https://api.openweathermap.org/data/2.5/find?q={city},BY&type=like&callback=test&appid={api_weather_key}&units=metric"
+            url_weather = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_weather_key}&units=metric"
 
             b = requests.get(url_weather)
-            data = b.text
+            data = b.json()
+
+            # выводим в читабельном виде
+            txt = f'''-{datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}-
+            
+            Погода в городе: {data["name"]}
+            Температура: {data["main"]["temp"]}C°
+            Влажность: {data["main"]["humidity"]}%
+            Давление: {data["main"]["pressure"]} мм.рт.ст
+            Ветер: {data["wind"]["speed"]} м/с
+            Восход солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunrise"])}
+            Закат солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunset"])}
+            
+            Хорошего дня!'''
             bot.send_message(
                 chat_id=call.message.chat.id,
-                text=data
+                text=txt
             )
 
         elif call.data == '0':
-            bot.send_message(
-                chat_id=call.message.chat.id,
-                text="Уже уходите?! До новых встреч."
-            )
             bot.stop_bot()
 
 
-bot.polling(non_stop=True)
+bot.polling(none_stop=True)
