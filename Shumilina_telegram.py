@@ -71,17 +71,17 @@ def callback(call):
             data = b.json()
 
             # выводим в читабельном виде
-            txt = f'''-{datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}-
+            txt = f'''--{datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}--
             
-            Погода в городе: {data["name"]}
-            Температура: {data["main"]["temp"]}C°
-            Влажность: {data["main"]["humidity"]}%
-            Давление: {data["main"]["pressure"]} мм.рт.ст
-            Ветер: {data["wind"]["speed"]} м/с
-            Восход солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunrise"])}
-            Закат солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunset"])}
-            
-            Хорошего дня!'''
+    Погода в городе: {data["name"]}
+    Температура: {data["main"]["temp"]}C°
+    Влажность: {data["main"]["humidity"]}%
+    Давление: {data["main"]["pressure"]} мм.рт.ст
+    Ветер: {data["wind"]["speed"]} м/с
+    Восход солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunrise"])}
+    Закат солнца: {datetime.datetime.fromtimestamp(data["sys"]["sunset"])}
+    
+--Хорошего дня!--'''
             bot.send_message(
                 chat_id=call.message.chat.id,
                 text=txt
